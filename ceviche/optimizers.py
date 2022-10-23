@@ -8,6 +8,8 @@ def adam_optimize(objective, params, jac, step_size=1e-2, Nsteps=100, bounds=Non
     of_list = []
 
     np.set_printoptions(formatter={'float': '{: 1.4f}'.format})
+    p=[]
+    l=[]
 
     for iteration in range(Nsteps):
 
@@ -43,8 +45,11 @@ def adam_optimize(objective, params, jac, step_size=1e-2, Nsteps=100, bounds=Non
         if bounds:
             params[params < bounds[0]] = bounds[0]
             params[params > bounds[1]] = bounds[1]
+            
+        p.append(params)
+        l.append(objective(params))
 
-    return (params, of_list)
+    return (params, of_list,p,l) ## p and l is added to get all the test dataset
 
 
 def step_adam(gradient, mopt_old, vopt_old, iteration, beta1, beta2, epsilon=1e-8):
